@@ -1,11 +1,11 @@
 import React from "react";
 import "./Chart.css";
 import useWindowSize from '../hooks/useWindowSize';
-import { Button, Media, Label, Container } from 'reactstrap';
+import { Media, Label, Container } from 'reactstrap';
 import code4RoGrey from '../images/code4RoGrey.svg';
-import code4RoTransp from '../images/code4RoTransp.svg';
 import ElectionPicker from '../services/electionPicker';
 import { getVoterTurnoutUrl } from '../services/apiService';
+import { useTranslation } from "react-i18next";
 
 const Line = ({ percent }) => (
     <div className="chart-line" style={{ top: `calc(100% - ${percent}%)` }}>
@@ -43,8 +43,8 @@ const LegendDot = ({ color, text }) => (
             width: '20px',
             height: '20px',
             display: 'inline-block',
-            background: `repeating-linear-gradient(-45deg, ${color} 0 10px, #fff 10px 12px)`,
-        }}></div>
+            background: `repeating-linear-gradient(-45deg, ${ color } 0 10px, #fff 10px 12px)`,
+        } }/>
         <span style={{ paddingLeft: '10px' }}>{text}</span>
     </div>
 )
@@ -55,6 +55,8 @@ export function ElectionChart() {
     const MAX_MOBILE_WIDTH = 575;
     const windowSize = useWindowSize();
     const [data, setData] = React.useState(null);
+
+    const { t } = useTranslation();
 
     const calcPercentage = val => ((val * 100) / data.enlistedVoters).toFixed(2);
     React.useEffect(() => {
@@ -103,12 +105,16 @@ export function ElectionChart() {
             <div className={'full-width-container'}>
                 <div className="border-radius">
                     <div className={"vote-monitoring-title-presence"}>
-                        <h1>PREZENȚĂ LA VOT</h1>
+                        <h1>
+                            {
+                                t('voter_turnout')
+                            }
+                        </h1>
                     </div>
                     <div className="x-container">
                         <div>
                             {windowSize.width > MAX_MOBILE_WIDTH
-                                ? <div className="text-center chart-title">Total alegatori</div>
+                                ? <div className="text-center chart-title">{ t('all_voters') }</div>
                                 : null
                             }
                             <div className={"info-legend bars bars-spacing"}>
@@ -127,8 +133,8 @@ export function ElectionChart() {
                                     </p>
                                 </div>
                                 <div style={{ alignSelf: 'flex-start', marginTop: '35px' }}>
-                                    <LegendDot color="#352245" text="Cetățeni cu drept de vot" />
-                                    <LegendDot color="#FFCC00" text="Au votat" />
+                                    <LegendDot color="#352245" text={ t('eligible_voters') } />
+                                    <LegendDot color="#FFCC00" text={ t('voted') } />
                                 </div>
                             </div>
                             <div className="chart">
@@ -149,21 +155,21 @@ export function ElectionChart() {
                                         color="#3C8CD2"
                                         percent={calcPercentage(data.permanentLists)}
                                         count={data.permanentLists}
-                                        text="Votanți pe liste permanente și speciale"
+                                        text={ t('permanent_and_special_list') }
                                     />
                                     <StripedBar
                                         orizontal={windowSize.width <= MAX_MOBILE_WIDTH}
                                         color="#443F46"
                                         percent={calcPercentage(data.additionalLists)}
                                         count={data.additionalLists}
-                                        text="Votanți pe liste suplimentare"
+                                        text={ t('additional_list') }
                                     />
                                     <StripedBar
                                         orizontal={windowSize.width <= MAX_MOBILE_WIDTH}
                                         color="#F74B32"
                                         percent={calcPercentage(data.mobileVotes)}
                                         count={data.mobileVotes}
-                                        text="Votanți cu urnă mobilă"
+                                        text={ t('mobile_list') }
                                     />
                                 </div>
                             </div>
@@ -171,17 +177,17 @@ export function ElectionChart() {
                         <div className={"vote-monitoring-numbers"} style={{ flexFlow: 'column' }}>
                             <div className={"vote-monitoring-area"} style={{ width: '80%' }}>
                                 <p style={{ fontSize: '22px' }}>{dotFormat(data.totalDiasporaVotes)}</p>
-                                <p style={{ fontSize: '14px', textAlign: 'center' }}>{"Votanți în Diaspora"}</p>
+                                <p style={{ fontSize: '14px', textAlign: 'center' }}> { t('diaspora_voters') } </p>
                             </div>
                         </div>
                         <div>
                             <Container style={{ display: 'flex', alignItems: 'left', justifyContent: 'flex-end', paddingTop: '40px' }}>
-                                <Label className="info-label">an app developed by</Label>
+                                <Label className="info-label">{ t('developed_by') }</Label>
                                 <Media src={code4RoGrey} />
                             </Container>
                         </div>
                     </div>
-                    <p className="becro">Date preluate de la <a href="https://prezenta.bec.ro" target="_blank" rel="noopener noreferrer">prezenta.bec.ro</a></p>
+                    <p className="becro">{ t('data_source') } <a href="https://prezenta.bec.ro" target="_blank" rel="noopener noreferrer">prezenta.bec.ro</a></p>
                 </div>
 
             </div>

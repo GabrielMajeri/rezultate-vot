@@ -1,10 +1,11 @@
 import React from "react";
 import { ChartBar } from "./ChartBar";
-import CountiesSelect from "./CountiesSelect";
+import { CountiesSelect } from "./CountiesSelect";
 import { FormGroup, Col, Button, Media, Label, Container } from "reactstrap";
 import code4RoGrey from '../../images/code4RoGrey.svg';
 import ElectionPicker from '../../services/electionPicker';
 import { getElectionResultsUrl } from '../../services/apiService';
+import { useTranslation } from "react-i18next";
 
 let currentSelection = '';
 let totalCountedVotes = 0;
@@ -17,6 +18,8 @@ export const ChartContainer = () => {
     const [counties, setCounties] = React.useState(null);
     const [voterTurnout, setVoterTurnout] = React.useState(null);
     const [displayQuestion, setDisplayQuestion] = React.useState(true);
+
+    const { t } = useTranslation();
     React.useEffect(() => {
 
         const fetchServerData = async () => {
@@ -51,10 +54,10 @@ export const ChartContainer = () => {
                         if (currentSelection) {
                             return;
                         }
-                        const total = { label: "Total", id: "" };
-                        const national = { label: "National", id: "national" };
-                        const diaspora = { label: "Diaspora", id: "diaspora" };
-                        const mail = { label: "Corespondență", id: "mail" };
+                        const total = { label: t('total'), id: "" };
+                        const national = { label: t('national'), id: "national" };
+                        const diaspora = { label: t('diaspora'), id: "diaspora" };
+                        const mail = { label: t('mail'), id: "mail" };
                         data.counties.unshift(total, diaspora, national, mail);
                         setCounties(data.counties);
                     });
@@ -122,16 +125,26 @@ export const ChartContainer = () => {
             })
     };
 
+    const cancelledVotes = canceledVotes.toLocaleString(undefined, {
+      maximumFractionDigits: 2
+    });
+
     return (
         <div>
             {candidates && voterTurnout ? (
                 <div>
                     <div sm={12} className={"votes-container"}>
                         <p className={"container-text"}>
-                            Rezultate Vot transparentizează întreg procesul electoral furnizând în timp real, într-o formă grafică intuitivă, ușor de înțeles, datele oficiale furnizate de către AEP și Birourile Electorale cât și datele preluate prin aplicația Monitorizare Vot dezvoltată de Code for Romania, despre alegerile din România.
-      </p>
+                          {
+                            t('site_description')
+                          }
+                        </p>
                         <div sm={3} className={"votes-numbers"}>
-                            <h3 className={"votes-title"}>Voturi numărate</h3>
+                            <h3 className={"votes-title"}>
+                              {
+                                t('counted_votes')
+                              }
+                            </h3>
                             <div sm={3} className={"votes-results"}>
                                 <p className={"votes-percent"}>
                                     {" "}
@@ -147,10 +160,10 @@ export const ChartContainer = () => {
                         </div>
                         <p className={"votes-text"} style={{ marginBottom: '0px', textAlign: 'center' }}>
                             {" "}
-                            din care {canceledVotes.toLocaleString(undefined, {
-                                maximumFractionDigits: 2
-                            })} voturi anulate
-    </p>
+                          {
+                            t('cancelled_votes', { cancelledVotes })
+                          }
+                        </p>
                     </div>
 
                     <FormGroup row>
@@ -171,8 +184,10 @@ export const ChartContainer = () => {
                     {!showAll ? (
                         <div className={"show-all-container"} sm={3}>
                             <Button className={"show-all-btn"} onClick={toggleShowAll}>
-                                Afiseaza toti candidatii
-              </Button>
+                              {
+                                t('display_all_candidates')
+                              }
+                            </Button>
                         </div>
                     ) : null}
                 </div>
@@ -180,14 +195,18 @@ export const ChartContainer = () => {
                     <div className={"default-container"}>
                         <div className={"votes-container"}>
                             <p className={"container-text"}>
-                                Rezultate Vot transparentizează întreg procesul electoral furnizând în timp real, într-o formă grafică intuitivă, ușor de înțeles, datele oficiale furnizate de către AEP și Birourile Electorale cât și datele preluate prin aplicația Monitorizare Vot dezvoltată de Code for Romania, despre alegerile din România.
-            </p>
+                              {
+                                t('site_description')
+                              }
+                            </p>
                         </div>
                         {
                             displayQuestion ? <div className={"question"}>
                                 <p className={"question-text"}>
-                                    Cine va câștiga turul 2 de alegeri prezidențiale?
-              </p>
+                                  {
+                                    t('teaser_question')
+                                  }
+                                </p>
                             </div> : ""
                         }
                     </div>
@@ -195,14 +214,13 @@ export const ChartContainer = () => {
             {
                 displayQuestion ? "" :
                     <div style={{ display: 'flex', marginBottom: '50px' }}>
-                        <p style={{ position: 'relative', display: 'inline' }} className="becro">Date preluate de la <a href="https://prezenta.bec.ro" target="_blank" rel="noopener noreferrer">prezenta.bec.ro</a></p>
+                        <p style={{ position: 'relative', display: 'inline' }} className="becro">{ t('data_source') } <a href="https://prezenta.bec.ro" target="_blank" rel="noopener noreferrer">prezenta.bec.ro</a></p>
                         <Container style={{ display: 'flex', alignItems: 'left', justifyContent: 'flex-end', padding: '0px' }}>
-                            <Label style={{ lineHeight: '18px' }} className="info-label">an app developed by</Label>
+                            <Label style={{ lineHeight: '18px' }} className="info-label">{ t('developed_by') }</Label>
                             <Media src={code4RoGrey} />
                         </Container>
                     </div>
             }
-
         </div>
     );
 };

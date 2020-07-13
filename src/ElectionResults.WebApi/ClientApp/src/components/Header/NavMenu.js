@@ -29,28 +29,36 @@ export function NavMenu() {
         <Navbar light expand="md">
           <Container>
             <NavbarBrand tag={ Link } to="/web">
-              <img src={ votLogo } width={ 90 } height={ 80 } alt="Rezultate Vot"/>
+              <img src={ votLogo } width={ 90 } height={ 80 } alt={ t('vote_results') }/>
             </NavbarBrand>
             <NavbarToggler className="mr-2 menu-toggle" onClick={ toggleNavbar }/>
             <Collapse isOpen={ !state.collapsed } navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
                   <select className="header-select" onChange={ loadElectionRound }>
-                    <option value="prezidentiale24112019">TURUL 2</option>
-                    <option value="prezidentiale10112019">TURUL 1</option>
+                    <option value="prezidentiale24112019">
+                      {
+                        t('round') + ' 2'
+                      }
+                    </option>
+                    <option value="prezidentiale10112019">
+                      {
+                        t('round') + ' 1'
+                      }
+                    </option>
                   </select>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={ Link } className="text-dark" to="/web/despre-proiect">
                     {
-                      t('despre_proiect')
+                      t('about_the_project')
                     }
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink tag={ Link } className="text-dark" to="/web/despre-noi">
                     {
-                      t('despre_noi')
+                      t('about_us')
                     }
                   </NavLink>
                 </NavItem>
