@@ -7,3 +7,15 @@ export const getElectionConfigUrl = () => `${base_URL}/api/settings/election-con
 export const getElectionResultsUrl = (electionId, source, county) => (!source) ? `${base_URL}/api/results?electionId=${electionId}` : `${base_URL}/api/results?electionId=${electionId}&source=${source}&county=${county || ''}`
 
 export const getVoteMonitoringUrl = (electionId) => `${base_URL}/api/results/monitoring?electionId=${electionId}`
+
+export const authentication = {
+  login: () => {
+    return new Promise((resolve) => {
+      const response = {
+        loggedIn: true
+      }
+
+      resolve(response)
+    })
+  },
+};
