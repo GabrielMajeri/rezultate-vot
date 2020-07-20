@@ -1,4 +1,4 @@
-# Rezultate Vot 
+# Rezultate Vot
 
 [![GitHub contributors](https://img.shields.io/github/contributors/code4romania/rezultate-vot.svg?style=for-the-badge)](https://github.com/code4romania/rezultate-vot/graphs/contributors) [![GitHub last commit](https://img.shields.io/github/last-commit/code4romania/rezultate-vot.svg?style=for-the-badge)](https://github.com/code4romania/rezultate-vot/commits/master) [![License: MPL 2.0](https://img.shields.io/badge/license-MPL%202.0-brightgreen.svg?style=for-the-badge)](https://opensource.org/licenses/MPL-2.0)
 
@@ -45,25 +45,32 @@ TBD
 
 ##### Prerequisites
 * .NET Core 2.2 (backend)
-* AWS CLI
+* AWS CLI _(optional, only for deployment)_
 * NodeJS (frontend)
 * Docker (for running localstack or the API on local machine)
 
 ##### Run the project
 
-- `cd localstack`
-- Run the localstack image with docker-compose
-- `docker-compose up -d`
-- Add the required configuration settings. Use setup.cmd for Windows or setup.sh for Mac/Linux(remember to install the AWS CLI before this)
-- `.\setup.cmd`
-  - this will add two settings called `electionsConfig` which is the list of elections and `intervalInSeconds` which is the background task run interval
-- use Visual Studio/Code to start the project, or use the following alternatives
-- using the dotnet CLI
-- `cd src\ElectionResults.WebApi`
-- `dotnet run`
-- Or, you can run the Docker image using docker-compose
-- `cd src`
-- `docker-compose up -d`
+- Run the localstack image with docker-compose:
+  - `cd localstack`
+  - `docker-compose up -d`
+
+- _(not needed if developing locally)_ Add the required configuration settings.
+
+  Use `setup.cmd` for Windows or `setup.sh` for Mac/Linux (remember to install the AWS CLI before this).
+
+  This will add two settings:
+  - `electionsConfig` which is the list of elections
+  - `intervalInSeconds` which is the background task run interval
+
+- Start the web API server, either:
+  - use Visual Studio / VS Code to run the project
+  - use the dotnet CLI:
+    - `cd src\ElectionResults.WebApi`
+    - `dotnet run`
+  - run the Docker image using `docker-compose`
+    - `cd src`
+    - `docker-compose up -d`
 
 
 #### Configuration
@@ -99,7 +106,7 @@ If you run the project on your local machine, you can also modify the file `loca
 * File a bug in GitHub Issues.
 * Email us with other feedback contact@code4.ro
 
-## License 
+## License
 
 This project is licensed under the MPL 2.0 License - see the [LICENSE](LICENSE) file for details
 
