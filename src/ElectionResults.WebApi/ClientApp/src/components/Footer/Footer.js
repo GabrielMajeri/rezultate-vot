@@ -6,8 +6,10 @@ import instagramLogo from "../../images/instagram_grey.png";
 import linkedinLogo from "../../images/linkedin_grey.png";
 import twitterLogo from "../../images/twitter_grey.png";
 import "./Footer.css";
+import { useTranslation } from "react-i18next";
 
 export function Footer() {
+  const { t } = useTranslation();
 
   return (
       <footer>
@@ -27,7 +29,11 @@ export function Footer() {
           <a className="social-link-item" href="https://twitter.com/Code4Romania" target="_blank" rel="noopener noreferrer" >
             <img src={twitterLogo} width={48} height={48} alt="Twitter" />
           </a>
-          <a id="donate-link-button" href="https://code4.ro/ro/doneaza/" target="_blank" rel="noopener noreferrer" >DONEAZĂ</a>
+          <a id="donate-link-button" href="https://code4.ro/ro/doneaza/" target="_blank" rel="noopener noreferrer" >
+            {
+              t('donate').toUpperCase()
+            }
+          </a>
         </Col>
       </Row>
       <Container className="text-white footer">
@@ -38,30 +44,44 @@ export function Footer() {
             className="usefull-links"
             style={{ alignSelf: "flex-end" }}
           >
-            <h4 className="link-title">Linkuri Utile</h4>
+            <h4 className="link-title">
+              {
+                t('useful_links')
+              }
+            </h4>
             <div>
               <a className="link-item" href="/web/termeni-si-conditii">
-                Termeni și condiții
+                {
+                  t('terms_and_conditions')
+                }
               </a>
             </div>
             <div>
               <a className="link-item" href="/web/politica-de-confidentialitate">
-                Politica de confidențialitate
+                {
+                  t('privacy_policy')
+                }
               </a>
             </div>
             <div>
               <a className="link-item" target="_blank" rel="noopener noreferrer"  href="https://code4.ro/ro/codul-de-conduita/">
-                Codul de conduita
+                {
+                  t('code_of_conduct')
+                }
               </a>
             </div>
             <div>
               <a className="link-item" target="_blank" rel="noopener noreferrer"  href="https://code4.ro/ro/">
-                Code for Romania
+                {
+                  t('code_for_romania')
+                }
               </a>
             </div>
             <div>
               <a className="link-item" href="mailto: contact@code4.ro">
-                Contact
+                {
+                  t('contact')
+                }
               </a>
             </div>
           </Col>
@@ -69,14 +89,15 @@ export function Footer() {
             xs="12"
             sm="6"
           >
-            <div className="text-sm-right mb-2"><a href="http://bit.ly/2q06tSu" target="_blank" rel="noopener noreferrer" >Abonează-te la newsletter</a></div>
+            <div className="text-sm-right mb-2"><a href="http://bit.ly/2q06tSu" target="_blank" rel="noopener noreferrer" >{ t('subscribe_to_newsletter') }</a></div>
             <div className="logo-container">
               <Media src={code4Ro} />
             </div>
-            <div className="text-sm-right mb-2">&copy; 2019 Code for Romania.</div>
+            <div className="text-sm-right mb-2">&copy; { t('copyright') }</div>
             <div className="text-sm-right">
-              Organizație neguvernamentală independentă, neafiliată politic și
-              apolitică.
+              {
+                t('ong_definition')
+              }
             </div>
           </Col>
         </Row>

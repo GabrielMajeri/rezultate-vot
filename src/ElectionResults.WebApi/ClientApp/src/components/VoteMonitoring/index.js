@@ -2,6 +2,7 @@ import React from "react";
 import "./style.css";
 import ElectionPicker from '../../services/electionPicker';
 import { getVoteMonitoringUrl } from '../../services/apiService';
+import { useTranslation } from "react-i18next";
 
 const NumberArea = ({ bigNumber, text }) => (
     <div className={"vote-monitoring-area"}>
@@ -44,6 +45,7 @@ export const VoteMonitoring = () => {
         };
     }, []);
 
+    const { t } = useTranslation();
     if (!voteMonitoringData) {
         return null;
     } else {
@@ -54,34 +56,48 @@ export const VoteMonitoring = () => {
             <div className={"full-width-container"}>
                 <div className={"vote-monitoring-container"}>
                     <div className={"vote-monitoring-title"}>
-                        <h1>OBSERVAREA INDEPENDENTĂ A ALEGERILOR</h1>
+                        <h1>
+                            {
+                                t('vote_monitoring')
+                            }
+                        </h1>
                     </div>
                     <div className="vote-monitoring-message">
-                        Aceste date sunt colectate prin aplicația Monitorizare Vot, dezvoltată de Code for Romania, de la observatorii independenți acreditați în secțiile de votare acoperite.
+                        {
+                            t('vote_monitoring_message')
+                        }
                     </div>
                     <div className={"vote-monitoring-numbers"}>
                         {NumberArea({
                             bigNumber: voteMonitoringData[1].value,
-                            text: "Secții de votare acoperite"
+                            text: t('number_of_visited_polling_stations')
                         })}
                         {NumberArea({
                             bigNumber: voteMonitoringData[2].value,
-                            text: "Județe acoperite"
+                            text: t('number_of_visited_counties')
                         })}
                         {NumberArea({
                             bigNumber: voteMonitoringData[4].value,
-                            text: "Observatori logați în aplicație"
+                            text: t('number_of_logged_in_observers')
                         })}
                     </div>
                     <div className={"vote-monitoring-info"}>
                         <div className={"info-legend"}>
                             <div className={"legend-container space"}>
-                                <div className={"square left"}></div>
-                                <p>Mesaje trimise de către observatori</p>
+                                <div className={ "square left" }/>
+                                <p>
+                                    {
+                                        t('observer_messages')
+                                    }
+                                </p>
                             </div>
                             <div className={"legend-container"}>
-                                <div className={"square right"}></div>
-                                <p>Probleme sesizate</p>
+                                <div className={ "square right" }/>
+                                <p>
+                                    {
+                                        t('observed_issues')
+                                    }
+                                </p>
                             </div>
                         </div>
                         <div className={"info-legend bars"}>

@@ -1,10 +1,11 @@
 ﻿/** @jsx jsx */
 
 import { jsx } from "@emotion/core";
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import Button from "@atlaskit/button";
 import Select, { components } from "react-select";
 import { defaultTheme } from "react-select";
+import { useTranslation } from "react-i18next";
 
 const { colors } = defaultTheme;
 
@@ -47,58 +48,64 @@ const selectStyles = {
   })
 };
 
-export default class CountiesSelect extends Component {
-  state = { isOpen: false, value: undefined };
-  toggleOpen = () => {
-    this.setState(state => ({ isOpen: !state.isOpen }));
+export const CountiesSelect = ({ counties, onSelect }) => {
+  const [state, setState] = useState({ isOpen: false, value: undefined });
+
+  const { t } = useTranslation();
+
+  const toggleOpen = () => {
+    setState(state => ({ isOpen: !state.isOpen }));
   };
-  onSelectChange = value => {
-    this.toggleOpen();
-    this.setState({ value });
-    this.props.onSelect(value);
+
+  const onSelectChange = value => {
+    toggleOpen();
+    setState({ value });
+    onSelect(value);
   };
-  getHeader = value => {
-    if (!value) return "Total";
+
+  const getHeader = value => {
+    if (!value) return t('total');
     if (value.id === "diaspora" || value.id === "national" || value.id === "" || value.id === "mail")
       return value.label;
     return `Județ: ${value.label}`;
   };
-  render() {
-    const { isOpen, value } = this.state;
-    return (
-      <Dropdown
-        isOpen={isOpen}
-        onClose={this.toggleOpen}
-        target={
-          <Button
-            className={"counties-select dropdown-button"}
-            iconAfter={<ChevronDown />}
-            onClick={this.toggleOpen}
-            isSelected={isOpen}
-          >
-            {this.getHeader(value)}
-          </Button>
-        }
-      >
-        <Select
-          autoFocus
-          backspaceRemovesValue={false}
-          components={{ DropdownIndicator, MenuList, Option }}
-          controlShouldRenderValue={false}
-          hideSelectedOptions={false}
-          isClearable={false}
-          menuIsOpen
-          onChange={this.onSelectChange}
-          options={this.props.counties}
-          placeholder="Cauta..."
-          styles={selectStyles}
-          tabSelectsValue={false}
-          value={value}
-        />
-      </Dropdown>
-    );
-  }
+
+  const { isOpen, value } = state;
+
+  return (
+    <Dropdown
+      isOpen={isOpen}
+      onClose={toggleOpen}
+      target={
+        <Button
+          className={"counties-select dropdown-button"}
+          iconAfter={<ChevronDown />}
+          onClick={toggleOpen}
+          isSelected={isOpen}
+        >
+          {getHeader(value)}
+        </Button>
+      }
+    >
+      <Select
+        autoFocus
+        backspaceRemovesValue={false}
+        components={{ DropdownIndicator, MenuList, Option }}
+        controlShouldRenderValue={false}
+        hideSelectedOptions={false}
+        isClearable={false}
+        menuIsOpen
+        onChange={onSelectChange}
+        options={counties}
+        placeholder={ t('search') + '...' }
+        styles={selectStyles}
+        tabSelectsValue={false}
+        value={value}
+      />
+    </Dropdown>
+  );
 }
+
 
 // styled components
 
@@ -151,25 +158,28 @@ const Svg = p => (
   />
 );
 const Option = props => {
-  if (props.data.label === "Total") {
+
+  const { t } = useTranslation();
+
+  if (props.data.label === t('total')) {
     return (
       <div className={"first-option"}>
         <components.Option {...props}>{props.children}</components.Option>
       </div>
     );
-  } else if (props.data.label === "Diaspora") {
+  } else if (props.data.label === t('diaspora')) {
     return (
       <div className={"first-option"}>
         <components.Option {...props}>{props.children}</components.Option>
       </div>
     );
-  } else if (props.data.label === "National") {
+  } else if (props.data.label === t('national')) {
     return (
       <div className={"first-option"}>
         <components.Option {...props}>{props.children}</components.Option>
       </div>
     );
-  } else if (props.data.label === "Corespondență") {
+  } else if (props.data.label === t('mail')) {
     return (
         <div className={"last-option"}>
             <components.Option {...props}>{props.children}</components.Option>
@@ -189,12 +199,14 @@ const MenuList = props => {
   const diaspora = props.children[1];
   const national = props.children[2];
   const mail = props.children[3];
-    if (props.children.length > 3) {
-        props.children.shift();
-        props.children.shift();
-        props.children.shift();
-        props.children.shift();
-    }
+  if (props.children.length > 3) {
+      props.children.shift();
+      props.children.shift();
+      props.children.shift();
+      props.children.shift();
+  }
+
+  const { t } = useTranslation();
 
   return (
     <components.MenuList {...props}>
@@ -202,7 +214,7 @@ const MenuList = props => {
       {diaspora}
       {national}
       {mail}
-      <div className={"county-text"}>Județ</div>
+      <div className={"county-text"}>{ t('county') }</div>
       {props.children}
     </components.MenuList>
   );
