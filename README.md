@@ -45,7 +45,7 @@ TBD
 
 ##### Prerequisites
 * .NET Core 2.2 (backend)
-* AWS CLI _(optional, only for deployment)_
+* AWS CLI
 * NodeJS (frontend)
 * Docker (for running localstack or the API on local machine)
 
